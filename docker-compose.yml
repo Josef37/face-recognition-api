@@ -1,0 +1,25 @@
+version: "3.7"
+
+services:
+  face-recognition-api:
+    container_name: backend
+    build: ./
+    command: npm run start:dev
+    working_dir: /usr/src/face-recognition-api
+    environment:
+      POSTGRES_URI: postgres://sally:secret@postgres:5432/face-recognition-docker
+      CLARIFAI_API_KEY: "f808c18957744e638fa78d51df1fc727"
+    ports:
+      - "3000:3000"
+    # Doesn't work for Windows...
+    # volumes:
+    #   - ./:/usr/src/face-recognition-api
+  postgres:
+    environment:
+      POSTGRES_USER: sally
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: face-recognition-docker
+      POSTGRES_HOST: postgres
+    build: ./postgres
+    ports:
+      - "5431:5432"
