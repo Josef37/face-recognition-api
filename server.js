@@ -2,6 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const bcrypt = require("bcrypt-nodejs");
 const cors = require("cors");
+const morgan = require("morgan");
 const register = require("./controllers/register");
 const signin = require("./controllers/signin");
 const profile = require("./controllers/profile");
@@ -16,6 +17,7 @@ const db = require("knex")({
 
 const app = express();
 
+app.use(morgan("combined"));
 app.use(cors());
 app.use(bodyParser.json());
 
