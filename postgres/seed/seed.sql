@@ -1,10 +1,10 @@
 BEGIN TRANSACTION;
 
 INSERT INTO users (
-  name, email, entries, joined
+  name, email, entries, joined, age, pet
 ) VALUES 
-  ('Tim', 'tim@gmail.com', 5, '2019-10-29'),
-  ('Tom', 'tom@gmail.com', 100, '2018-05-01');
+  ('Tim', 'tim@gmail.com', 5, '2019-10-29', 21, NULL),
+  ('Tom', 'tom@gmail.com', 100, '2018-05-01', 37, 'Dragon');
 
 INSERT INTO login (
   hash, email

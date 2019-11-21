@@ -8,7 +8,9 @@ services:
     working_dir: /usr/src/face-recognition-api
     environment:
       POSTGRES_URI: postgres://sally:secret@postgres:5432/face-recognition-docker
+      REDIS_URI: redis://redis:6379
       CLARIFAI_API_KEY: "f808c18957744e638fa78d51df1fc727"
+      JWT_SECRET: "5frkcun9t5k1kkkg924lmxw7y07x0mbla1"
     ports:
       - "3000:3000"
     # Doesn't work for Windows...
@@ -23,3 +25,7 @@ services:
     build: ./postgres
     ports:
       - "5431:5432"
+  redis:
+    image: redis
+    ports:
+      - "6379:6379"
