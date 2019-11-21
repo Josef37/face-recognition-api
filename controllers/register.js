@@ -1,6 +1,6 @@
 const bcrypt = require("bcrypt-nodejs");
 const { db } = require("../helper/init");
-const { createSessions } = require("../helper/session")
+const { createSessions } = require("../helper/tokenHelper")
 
 const handleRegister = (req, res) => {
   const { email, name, password } = req.body;

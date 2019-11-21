@@ -1,6 +1,6 @@
 const bcrypt = require("bcrypt-nodejs");
 const { db, redisClient } = require("../helper/init");
-const { createSessions } = require("../helper/session");
+const { createSessions, getBearerToken } = require("../helper/tokenHelper");
 
 const handleSignin = (email, password) => {
   if (!email || !password) return Promise.reject("incorrect form submission");
@@ -26,9 +26,9 @@ const handleSignin = (email, password) => {
     .catch(err => Promise.reject("wrong credentials"));
 };
 
-const getAuthTokenId = authorization => {
+const getAuthTokenId = token => {
   return new Promise((resolve, reject) => {
-    redisClient.get(authorization, (err, reply) => {
+    redisClient.get(token, (err, reply) => {
       if (err || !reply) reject("unauthorized");
       return resolve({ id: reply });
     });
@@ -36,9 +36,9 @@ const getAuthTokenId = authorization => {
 };
 
 const signinAuthentication = (req, res) => {
-  const { authorization } = req.headers;
-  return authorization
-    ? getAuthTokenId(authorization)
+  const token = getBearerToken(req);
+  return token
+    ? getAuthTokenId(token)
         .then(({ id }) => res.json({ id }))
         .catch(err => res.status(400).json(err))
     : handleSignin(req.body.email, req.body.password)

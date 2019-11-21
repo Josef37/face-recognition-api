@@ -17,4 +17,12 @@ const createSessions = ({ email, id }) => {
     .catch(console.log);
 };
 
-module.exports = { createSessions };
+const getBearerToken = req => {
+  const { authorization } = req.headers;
+  if (!authorization) return null;
+  const tokenMatch = authorization.match(/(?<=Bearer ).*/);
+  if (!tokenMatch) return null;
+  return tokenMatch[0];
+};
+
+module.exports = { createSessions, getBearerToken };
