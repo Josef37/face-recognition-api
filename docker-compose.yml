@@ -4,7 +4,7 @@ services:
   face-recognition-api:
     container_name: backend
     build: ./
-    command: npm run start:dev
+    command: npm run start:dev -- -L
     working_dir: /usr/src/face-recognition-api
     environment:
       POSTGRES_URI: postgres://sally:secret@postgres:5432/face-recognition-docker
@@ -13,9 +13,8 @@ services:
       JWT_SECRET: "5frkcun9t5k1kkkg924lmxw7y07x0mbla1"
     ports:
       - "3000:3000"
-    # Doesn't work for Windows...
-    # volumes:
-    #   - ./:/usr/src/face-recognition-api
+    volumes:
+      - ./:/usr/src/face-recognition-api
   postgres:
     environment:
       POSTGRES_USER: sally
