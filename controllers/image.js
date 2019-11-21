@@ -1,3 +1,4 @@
+const { db } = require("../helper/init");
 const Clarifai = require("clarifai");
 
 const app = new Clarifai.App({
@@ -11,7 +12,7 @@ const handleApiCall = (req, res) => {
     .catch(err => res.status(400).json("unable to work with api"));
 };
 
-const handleImage = db => (req, res) => {
+const handleImage = (req, res) => {
   const { id } = req.body;
   db("users")
     .where({ id })

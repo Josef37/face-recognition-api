@@ -1,6 +1,8 @@
-const createSessions = require("./signin").createSessions;
+const bcrypt = require("bcrypt-nodejs");
+const { db } = require("../helper/init");
+const { createSessions } = require("../helper/session")
 
-const handleRegister = (db, bcrypt) => (req, res) => {
+const handleRegister = (req, res) => {
   const { email, name, password } = req.body;
   const hash = bcrypt.hashSync(password);
   db.transaction(trx => {

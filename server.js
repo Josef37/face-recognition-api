@@ -1,17 +1,13 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const bcrypt = require("bcrypt-nodejs");
 const cors = require("cors");
 const morgan = require("morgan");
 const register = require("./controllers/register");
 const signin = require("./controllers/signin");
+const signout = require("./controllers/signout");
 const profile = require("./controllers/profile");
-const auth = require("./controllers/authorization");
 const image = require("./controllers/image");
-const db = require("knex")({
-  client: "pg",
-  connection: process.env.POSTGRES_URI
-});
+const auth = require("./helper/authorization");
 
 const app = express();
 
@@ -19,12 +15,12 @@ app.use(morgan("combined"));
 app.use(cors());
 app.use(bodyParser.json());
 
-app.post("/signin", signin.signinAuthentication(db, bcrypt));
-app.post("/signout", signin.signout);
-app.post("/register", register.handleRegister(db, bcrypt));
-app.get("/profile/:id", auth.requireAuth, profile.handleProfileGet(db));
-app.post("/profile/:id", auth.requireAuth, profile.handleProfileUpdate(db));
-app.put("/image", auth.requireAuth, image.handleImage(db));
+app.post("/signin", signin.signinAuthentication);
+app.post("/signout", signout.handleSignout);
+app.post("/register", register.handleRegister);
+app.get("/profile/:id", auth.requireAuth, profile.handleProfileGet);
+app.post("/profile/:id", auth.requireAuth, profile.handleProfileUpdate);
+app.put("/image", auth.requireAuth, image.handleImage);
 app.post("/imageurl", auth.requireAuth, image.handleApiCall);
 
 app.listen(process.env.PORT || 3000, () => {
