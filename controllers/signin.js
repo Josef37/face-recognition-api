@@ -74,5 +74,6 @@ const signout = (req, res) => {
 module.exports = {
   signinAuthentication,
   signout,
+  createSessions,
   redisClient
 };

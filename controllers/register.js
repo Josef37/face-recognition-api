@@ -1,3 +1,5 @@
+const createSessions = require("./signin").createSessions;
+
 const handleRegister = (db, bcrypt) => (req, res) => {
   const { email, name, password } = req.body;
   const hash = bcrypt.hashSync(password);
@@ -10,9 +12,8 @@ const handleRegister = (db, bcrypt) => (req, res) => {
         return trx("users")
           .returning("*")
           .insert({ email: loginEmail, name, joined: new Date() })
-          .then(([user]) => {
-            res.json(user);
-          });
+          .then(([user]) => createSessions(user))
+          .then(session => res.json(session));
       })
       .then(trx.commit)
       .catch(trx.rollback);
